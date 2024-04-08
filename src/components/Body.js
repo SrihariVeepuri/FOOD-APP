@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 //import resList from "../utils/resData";
-import ResCard from "./RestaurantCard";
+import ResCard, { WithOpenedLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -8,6 +8,8 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState(null);
   const [copyOfListOfRestaurants, setCopyOfListOfRestaurants] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const RestaurantOpened = WithOpenedLabel(ResCard);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -40,57 +42,50 @@ const Body = () => {
 
   return (
     <div className="body">
-      <div className="search-container">
-        <input
-          type="text"
-          style={{
-            border: "solid 3px orange",
-            borderRadius: "10px",
-            padding: "5px",
-            backgroundColor: "rgb(249, 235, 209)",
-            marginTop: "10px",
-          }}
-          value={searchText}
-          onChange={(event) => {
-            setSearchText(event.target.value);
-          }}
-        />
-        <button
-          className="search-btn"
-          style={{
-            backgroundColor: "orange",
-            borderRadius: "20%",
-            padding: "7px",
-            border: "none",
-            margin: "1px",
-          }}
-          onClick={() => {
-            const searchData = listOfRestaurants.filter((res) =>
-              res.info.name.toLowerCase().includes(searchText.toLowerCase())
-            );
-            setCopyOfListOfRestaurants(searchData);
-          }}
-        >
-          search
-        </button>
+      <div className="flex m-6">
+        <div className="mx-6">
+          <input
+            className=" p-1 border-solid border-2 border-pink-500 rounded-lg"
+            type="text"
+            value={searchText}
+            onChange={(event) => {
+              setSearchText(event.target.value);
+            }}
+          />
+          <button
+            className="mx-1 p-1 bg-pink-500 text-white rounded-lg border-solid border-2 border-pink-300"
+            onClick={() => {
+              const searchData = listOfRestaurants.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              );
+              setCopyOfListOfRestaurants(searchData);
+            }}
+          >
+            search
+          </button>
+        </div>
+        <div className="mx-auto p-1 bg-pink-500 text-white rounded-lg border-solid border-2 border-pink-300">
+          <button
+            className="filter-btn"
+            onClick={() => {
+              const filteredList = listOfRestaurants.filter(
+                (res) => res.info.avgRating > 4.2
+              );
+              setCopyOfListOfRestaurants(filteredList);
+            }}
+          >
+            Top Rated
+          </button>
+        </div>
       </div>
-      <div className="filter-btn-container">
-        <button
-          className="filter-btn"
-          onClick={() => {
-            const filteredList = listOfRestaurants.filter(
-              (res) => res.info.avgRating > 4.2
-            );
-            setCopyOfListOfRestaurants(filteredList);
-          }}
-        >
-          Top Rated
-        </button>
-      </div>
-      <div className="card-container">
+      <div className="flex flex-wrap">
         {copyOfListOfRestaurants.map((res) => (
           <Link to={"/restaurants/" + res.info.id} key={res.info.id}>
-            <ResCard key={res.info.id} resData={res} />
+            {res?.info?.availability?.opened ? (
+              <RestaurantOpened resData={res} />
+            ) : (
+              <ResCard key={res.info.id} resData={res} />
+            )}
           </Link>
         ))}
       </div>

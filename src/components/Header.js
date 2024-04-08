@@ -6,43 +6,43 @@ const Header = () => {
   const [btnName, setBtnName] = useState("Signin");
   const onlineStatus = useOnlineStatus();
   return (
-    <div className="header-container">
-      <div className="image-container">
+    <div className="flex wrap  bg-pink-50 h-28  m-0 p-0 w-100% sticky top-0">
+      <div className="flex items-center mx-4">
         <img
-          className="app-logo"
+          className="w-10"
           src="https://cdn.worldvectorlogo.com/logos/swiggy-1.svg"
           alt="app-logo"
         />
       </div>
-      <div className="nav-container">
-        <ul>
-          <li>OnlineStatus: {onlineStatus ? "✅" : "❌"}</li>
-          <Link className="link" to="/">
-            <li>Home</li>
+      <div className="flex items-center justify-end">
+        <ul className="flex">
+          <li className="mx-2">OnlineStatus: {onlineStatus ? "✅" : "❌"}</li>
+          <Link to="/">
+            <li className="mx-2">Home</li>
           </Link>
-          <Link className="link" to="/about">
-            <li>About</li>
+          <Link to="/about">
+            <li className="mx-2">About</li>
           </Link>
-          <Link className="link" to="/contact">
-            <li>Contact</li>
+          <Link to="/contact">
+            <li className="mx-2">Contact</li>
           </Link>
-          <Link className="link">
-            <li>Cart</li>
+          <Link>
+            <li className="mx-2">Cart</li>
           </Link>
-          <Link to="/grocery" className="link">
-            <li>Grocery</li>
+          <Link to="/grocery">
+            <li className="mx-2">Grocery</li>
           </Link>
         </ul>
-      </div>
-      <div className="btn-container">
-        <button
-          className="btn"
-          onClick={() => {
-            btnName === "Login" ? setBtnName("Signout") : setBtnName("Login");
-          }}
-        >
-          {btnName}
-        </button>
+        <div className="mx-6">
+          <button
+            className="btn"
+            onClick={() => {
+              btnName === "Login" ? setBtnName("Signout") : setBtnName("Login");
+            }}
+          >
+            {btnName}
+          </button>
+        </div>
       </div>
     </div>
   );

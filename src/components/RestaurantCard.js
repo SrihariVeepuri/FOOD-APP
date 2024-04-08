@@ -8,22 +8,33 @@ const ResCard = (props) => {
     sla: { deliveryTime },
   } = props?.resData?.info;
   return (
-    <div className="res-card">
-      <div className="card-container">
-        <img
-          className="res-logo"
-          src={CDN_URL + cloudinaryImageId}
-          alt="res-logo"
-        />
-      </div>
-      <div className="card-data">
-        <h3>{name}</h3>
-        <p>{cuisines.join(",")}</p>
-        <p>{avgRating} stars</p>
-        <p>{deliveryTime} minutes</p>
+    <div className="m-4 flex-column  w-[200px] rounded-xl overflow-hidden">
+      <img
+        className="rounded-xl w-full h-auto"
+        src={CDN_URL + cloudinaryImageId}
+        alt="res-logo"
+      />
+
+      <div className="p-2">
+        <h4>{name}</h4>
+        <h4>{cuisines.join(", ")}</h4>
+        <h4>{avgRating} stars</h4>
+        <h4>{deliveryTime} minutes</h4>
       </div>
     </div>
   );
 };
 
+export const WithOpenedLabel = (ResCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="px-2 bg-green-500 rounded-lg text-white text-center">
+          open
+        </label>
+        <ResCard {...props} />
+      </div>
+    );
+  };
+};
 export default ResCard;
