@@ -1,5 +1,6 @@
 import { ITEM_URL } from "../utils/constants";
-const ItemList = ({ items }) => {
+const ItemList = ({ items, dummy }) => {
+  console.log(dummy);
   return (
     <div>
       {items.map((item) => (
@@ -21,7 +22,7 @@ const ItemList = ({ items }) => {
             <p className="text-xs">{item.card.info.description}</p>
           </div>
           <div className="w-3/12 p-4">
-            <div className="">
+            <div className="absolute">
               <button className="rounded-lg bg-black text-white shadow-lg">
                 ADD +
               </button>
@@ -29,7 +30,7 @@ const ItemList = ({ items }) => {
             <img
               src={ITEM_URL + item.card.info.imageId}
               alt="item-logo"
-              className="w-16"
+              className="w-full"
             />
           </div>
         </div>

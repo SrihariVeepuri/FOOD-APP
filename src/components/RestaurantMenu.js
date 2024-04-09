@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
-import { ITEM_URL } from "../utils/constants";
 import useRestaurantMenu from "../utils/userestaurantMenu";
 import RestaurantCatagory from "./RestaurantCatagory";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const menuData = useRestaurantMenu(resId);
+  const [showIndex, setShowIndex] = useState(null);
+  const dummy = "Dummy Data";
   if (menuData === null) {
     return <h3>Loading....</h3>;
   }
@@ -23,10 +25,13 @@ const RestaurantMenu = () => {
       <h1 className="font-bold text-2xl">{name}</h1>
       <p>{cuisines.join(", ")}</p>
 
-      {catagories.map((catagory) => (
+      {catagories.map((catagory, index) => (
         <RestaurantCatagory
           key={catagory?.card?.card?.title}
           data={catagory?.card?.card}
+          showItems={index === showIndex ? true : false}
+          setShowIndex={() => setShowIndex(index)}
+          dummy={dummy}
         />
       ))}
     </div>

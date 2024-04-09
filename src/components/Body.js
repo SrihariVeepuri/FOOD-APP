@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 //import resList from "../utils/resData";
 import ResCard, { WithOpenedLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState(null);
   const [copyOfListOfRestaurants, setCopyOfListOfRestaurants] = useState(null);
@@ -36,6 +37,7 @@ const Body = () => {
       </div>
     );
   }
+  const { loggedInUser, setUserName } = useContext(UserContext);
   if (listOfRestaurants === null) {
     return <Shimmer />;
   }
@@ -77,6 +79,15 @@ const Body = () => {
             Top Rated
           </button>
         </div>
+        <div>
+          <label>UserName: </label>
+          <input
+            className="border border-black px-2"
+            type="text"
+            value={loggedInUser}
+            onChange={(event) => setUserName(event.target.value)}
+          />
+        </div>
       </div>
       <div className="flex flex-wrap">
         {copyOfListOfRestaurants.map((res) => (
@@ -84,7 +95,7 @@ const Body = () => {
             {res?.info?.availability?.opened ? (
               <RestaurantOpened resData={res} />
             ) : (
-              <ResCard key={res.info.id} resData={res} />
+              <ResCard resData={res} />
             )}
           </Link>
         ))}

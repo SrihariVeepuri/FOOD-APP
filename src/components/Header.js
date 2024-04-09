@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
   const [btnName, setBtnName] = useState("Signin");
   const onlineStatus = useOnlineStatus();
+  const { loggedInUser } = useContext(UserContext);
   return (
-    <div className="flex wrap  bg-pink-50 h-28  m-0 p-0 w-100% sticky top-0">
+    <div className="flex wrap justify-between bg-pink-50 h-28  m-0 p-0 w-100% sticky top-0">
       <div className="flex items-center mx-4">
         <img
           className="w-10"
@@ -33,16 +35,16 @@ const Header = () => {
             <li className="mx-2">Grocery</li>
           </Link>
         </ul>
-        <div className="mx-6">
-          <button
-            className="btn"
-            onClick={() => {
-              btnName === "Login" ? setBtnName("Signout") : setBtnName("Login");
-            }}
-          >
-            {btnName}
-          </button>
-        </div>
+
+        <button
+          className="mx-2"
+          onClick={() => {
+            btnName === "Login" ? setBtnName("Signout") : setBtnName("Login");
+          }}
+        >
+          {btnName}
+        </button>
+        <li className="mx-2 list-none">{loggedInUser}</li>
       </div>
     </div>
   );
